@@ -11,6 +11,7 @@ public class HeroEntity : MonoBehaviour
 
     [Header("Orientation")]
     [SerializeField] private Transform _orientVisualRoot;
+    private float _orientX = 1f;
 
     [Header("Debug")]
     [SerializeField] private bool _guiDebug = false;
@@ -22,6 +23,7 @@ public class HeroEntity : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _ChangeOrientFromHorizontalMovement();
         _ApplyHorizontalSpeed();
     }
 
@@ -31,6 +33,12 @@ public class HeroEntity : MonoBehaviour
         velocity.x = _horizontalSpeed * _moveDirX;
         _rigidbody.velocity = velocity;
     }
+
+    private void _ChangeOrientFromHorizontalMovement()
+    {
+        if (_moveDirX == 0f) return;
+        _orientX = Mathf.Sign(_moveDirX);
+    }
     
     private void Update()
     {
@@ -39,6 +47,10 @@ public class HeroEntity : MonoBehaviour
 
     private void _UpdateOrientVisual()
     {
+        if (_moveDirX == 0f) return;
+        Vector3 newScale = _orientVisualRoot.localScale;
+        newScale.x = _moveDirX;
+        _orientVisualRoot.localScale = newScale;
     }
 
     private void OnGUI()
