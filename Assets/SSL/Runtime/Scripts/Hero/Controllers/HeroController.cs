@@ -37,12 +37,14 @@ public class HeroController : MonoBehaviour
                 _entity.StopJumpImpulsion();
             }
         }
-        
-        
-        
-        //_entity.SetDash(GetInputDash());
+
+        if (GetInputDash())
+        {
+            _entity.StartDash();
+        }
     }
 
+    #region InputManager
     private float GetInputMoveX()
     {
         float inputMoveX = 0f;
@@ -70,16 +72,7 @@ public class HeroController : MonoBehaviour
     }
     private bool GetInputDash()
     {
-        bool inputDash = false;
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            inputDash = true;
-        }
-        else
-        {
-            inputDash = false;
-        }
-
-        return inputDash;
+        return Input.GetKeyDown(KeyCode.E);
     }
+    #endregion
 }
