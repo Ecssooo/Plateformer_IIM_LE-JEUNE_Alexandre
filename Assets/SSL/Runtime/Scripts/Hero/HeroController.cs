@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
+
 public class HeroController : MonoBehaviour
 {
     [Header("Entity")]
@@ -20,10 +21,29 @@ public class HeroController : MonoBehaviour
 
     private void Update()
     {
-        _entity.SetMoveDirX(GetInputMoxeX());
+        _entity.SetMoveDirX(GetInputMoveX());
+        if (_GetInputDownJump())
+        {
+            if (_entity.IsTouchingGround && !_entity.IsJumping)
+            {
+                _entity.JumpStart();
+            }
+        }
+
+        if (_entity.IsJumpImpulsion)
+        {
+            if (!_GetInputJump() && _entity.IsJumpMinDurationReached)
+            {
+                _entity.StopJumpImpulsion();
+            }
+        }
+        
+        
+        
+        //_entity.SetDash(GetInputDash());
     }
 
-    private float GetInputMoxeX()
+    private float GetInputMoveX()
     {
         float inputMoveX = 0f;
 
@@ -36,7 +56,30 @@ public class HeroController : MonoBehaviour
         {
             inputMoveX = 1f;
         }
-
         return inputMoveX;
+    }
+
+    private bool _GetInputDownJump()
+    {
+        return Input.GetKeyDown(KeyCode.Space);
+    }
+
+    private bool _GetInputJump()
+    {
+        return Input.GetKey(KeyCode.Space);
+    }
+    private bool GetInputDash()
+    {
+        bool inputDash = false;
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            inputDash = true;
+        }
+        else
+        {
+            inputDash = false;
+        }
+
+        return inputDash;
     }
 }
