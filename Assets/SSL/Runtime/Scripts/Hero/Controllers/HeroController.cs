@@ -30,6 +30,10 @@ public class HeroController : MonoBehaviour
         GUILayout.EndVertical();
     }
 
+    private void Start()
+    {
+        _CancelJumpBuffer();
+    }
     private void Update()
     {
         _UpdateJumpBuffer(); 
@@ -82,7 +86,7 @@ public class HeroController : MonoBehaviour
 
     }
 
-    #region InputManager
+    #region Horizontal Controller
     private float GetInputMoveX()
     {
         float inputMoveX = 0f;
@@ -98,7 +102,17 @@ public class HeroController : MonoBehaviour
         }
         return inputMoveX;
     }
-
+    
+    private bool GetInputDash()
+    {
+        return Input.GetKeyDown(KeyCode.E);
+    }
+    #endregion
+    
+    #region Jump Controller
+    
+    #region Jump Input
+    
     private bool _GetInputDownJump()
     {
         return Input.GetKeyDown(KeyCode.Space);
@@ -108,15 +122,11 @@ public class HeroController : MonoBehaviour
     {
         return Input.GetKey(KeyCode.Space);
     }
-    private bool GetInputDash()
-    {
-        return Input.GetKeyDown(KeyCode.E);
-    }
+    
+    
     #endregion
     
-    #region Jump Controller
-    
-    
+    #region Jump Buffer
     private void _ResetJumpBuffer()
     {
         _jumpBufferTimer = 0f;
@@ -137,6 +147,8 @@ public class HeroController : MonoBehaviour
     {
         _jumpBufferTimer = _jumpBufferDuration;
     }
+    
+    #endregion
     #region coyote Time
 
     private void _UpdateCoyoteTime()
