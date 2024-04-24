@@ -6,9 +6,18 @@ public class HeroController : MonoBehaviour
 {
     [Header("Entity")]
     [SerializeField] private HeroEntity _entity;
-
+    private bool _entityWasTouchingGround = false;
+    
     [Header("Debug")]
     [SerializeField] private bool _guiDebug = false;
+
+    [Header("Jump Buffer")] 
+    [SerializeField] private float _jumpBufferDuration = 0.2f;
+    private float _jumpBufferTimer = 0f;
+
+    [Header("Coyote Time")] 
+    [SerializeField] private float _coyoteTimeDuration = 0.2f;
+    private float _coyoteTimeCooldown = 0f;
 
     private void OnGUI()
     {
@@ -16,32 +25,61 @@ public class HeroController : MonoBehaviour
 
         GUILayout.BeginVertical(GUI.skin.box);
         GUILayout.Label(gameObject.name);
+        GUILayout.Label($"Jump Buffer Timer = {_jumpBufferTimer}");
+        GUILayout.Label($"Jump Buffer Timer = {_coyoteTimeCooldown}");
         GUILayout.EndVertical();
     }
 
     private void Update()
     {
+        _UpdateJumpBuffer(); 
         _entity.SetMoveDirX(GetInputMoveX());
-        if (_GetInputDownJump())
-        {
-            if (_entity.IsTouchingGround && !_entity.IsJumping)
-            {
-                _entity.JumpStart();
-            }
-        }
-
-        if (_entity.IsJumpImpulsion)
-        {
-            if (!_GetInputJump() && _entity.IsJumpMinDurationReached)
-            {
-                _entity.StopJumpImpulsion();
-            }
-        }
-
         if (GetInputDash())
         {
             _entity.StartDash();
         }
+        else
+        {
+            if (_EntityHasExitGround())
+            {
+                _ResetCoyoteTime();
+            }
+            else
+            {
+                _UpdateCoyoteTime();
+            }
+            
+            if (_GetInputDownJump())
+            {
+                if ((_entity.IsTouchingGround ||_IsCoyoteActive()) && !_entity.IsJumping)
+                {
+                    _entity.JumpStart();
+                }
+                else
+                {
+                    _ResetJumpBuffer();
+                }
+            }
+
+            if (IsJumpBufferActive())
+            {
+                if ((_entity.IsTouchingGround ||_IsCoyoteActive()) && !_entity.IsJumping)
+                {
+                    _entity.JumpStart();
+                }
+            }
+
+            if (_entity.IsJumpImpulsion)
+            {
+                if (!_GetInputJump() && _entity.IsJumpMinDurationReached)
+                {
+                    _entity.StopJumpImpulsion();
+                }
+            }
+        }
+
+        _entityWasTouchingGround = _entity.IsTouchingGround;
+
     }
 
     #region InputManager
@@ -74,5 +112,55 @@ public class HeroController : MonoBehaviour
     {
         return Input.GetKeyDown(KeyCode.E);
     }
+    #endregion
+    
+    #region Jump Controller
+    
+    
+    private void _ResetJumpBuffer()
+    {
+        _jumpBufferTimer = 0f;
+    }
+
+    private bool IsJumpBufferActive()
+    {
+        return _jumpBufferTimer < _jumpBufferDuration;
+    }
+
+    private void _UpdateJumpBuffer()
+    {
+        if (!IsJumpBufferActive()) return;
+        _jumpBufferTimer += Time.deltaTime;
+    }
+
+    private void _CancelJumpBuffer()
+    {
+        _jumpBufferTimer = _jumpBufferDuration;
+    }
+    #region coyote Time
+
+    private void _UpdateCoyoteTime()
+    {
+        if (!_IsCoyoteActive()) return;
+        _coyoteTimeCooldown -= Time.deltaTime;
+    }
+
+    private bool _IsCoyoteActive()
+    {
+        return _coyoteTimeCooldown > 0f;
+    }
+
+    private void _ResetCoyoteTime()
+    {
+        _coyoteTimeCooldown = _coyoteTimeDuration;
+    }
+
+    private bool _EntityHasExitGround()
+    {
+        return _entityWasTouchingGround && !_entity.IsTouchingGround;
+    }
+    
+    
+    #endregion
     #endregion
 }
