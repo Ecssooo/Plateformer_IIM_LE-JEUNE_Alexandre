@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class HeroEntity : MonoBehaviour
 {
@@ -7,7 +8,10 @@ public class HeroEntity : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigidbody;
 
     [Header("Horizontal Movements")]
-    [SerializeField] private HeroHorizontalMovementSettings _movementsSettings;
+    [FormerlySerializedAs("_movementSettings")]
+    [SerializeField] private HeroHorizontalMovementSettings _groundHorizontalMovementSettings;
+    [SerializeField] private HeroHorizontalMovementSettings _airHorizontalMovementSettings;
+    
     private float _horizontalSpeed = 0f;
     private float _moveDirX = 0f;
 
@@ -46,22 +50,19 @@ public class HeroEntity : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool _guiDebug = false;
 
-    public void SetMoveDirX(float dirX)
-    {
-        _moveDirX = dirX;
-    }
+    
 
     #region Update
     private void FixedUpdate()
     {
         _ApplyGroundDetection();
-
+        HeroHorizontalMovementSettings horizontalMovementSettings = _getCurrentHorizontalMovementSettings();
         if (_AreOrientAndMovementOpposite())
         {
-            _TurnBack();
+            _TurnBack(horizontalMovementSettings);
         }
         else { 
-            _UpdateHorizontalSpeed();
+            _UpdateHorizontalSpeed(horizontalMovementSettings);
             _ChangeOrientFromHorizontalMovement();
         }
 
@@ -101,6 +102,11 @@ public class HeroEntity : MonoBehaviour
     #endregion
 
     #region Horizontal Movements
+    
+    public void SetMoveDirX(float dirX)
+    {
+        _moveDirX = dirX;
+    }
     private void _ApplyHorizontalSpeed()
     {
         Vector2 velocity = _rigidbody.velocity;
@@ -109,39 +115,39 @@ public class HeroEntity : MonoBehaviour
     }
 
 
-    private void _UpdateHorizontalSpeed()
+    private void _UpdateHorizontalSpeed(HeroHorizontalMovementSettings _settings)
     {
         if (_moveDirX != 0f)
         {
-            _Accelerate();
+            _Accelerate(_settings);
         }
         else
         {
-            _Decelerate();
+            _Decelerate(_settings);
         }
     }
 
-    private void _Accelerate()
+    private void _Accelerate(HeroHorizontalMovementSettings settings)
     {
-        _horizontalSpeed += _movementsSettings.acceleration * Time.fixedDeltaTime;
-        if( _horizontalSpeed > _movementsSettings.speedMax)
+        _horizontalSpeed += settings.acceleration * Time.fixedDeltaTime;
+        if( _horizontalSpeed > settings.speedMax)
         {
-            _horizontalSpeed = _movementsSettings.speedMax;
+            _horizontalSpeed = settings.speedMax;
         }
     }
 
-    private void _Decelerate()
+    private void _Decelerate(HeroHorizontalMovementSettings settings)
     {
-        _horizontalSpeed -= _movementsSettings.deceleration * Time.fixedDeltaTime;
+        _horizontalSpeed -= settings.deceleration * Time.fixedDeltaTime;
         if(_horizontalSpeed < 0f)
         {
             _horizontalSpeed = 0f;
         }
     }
 
-    private void _TurnBack()
+    private void _TurnBack(HeroHorizontalMovementSettings settings)
     {
-        _horizontalSpeed -= _movementsSettings.turnBackFrictions * Time.fixedDeltaTime;
+        _horizontalSpeed -= settings.turnBackFrictions * Time.fixedDeltaTime;
         if( _horizontalSpeed < 0f)
         {
             _horizontalSpeed = 0f;
@@ -149,6 +155,18 @@ public class HeroEntity : MonoBehaviour
         }
     }
 
+
+    private HeroHorizontalMovementSettings _getCurrentHorizontalMovementSettings()
+    {
+        if (IsTouchingGround)
+        {
+            return _groundHorizontalMovementSettings;
+        }
+        else
+        {
+            return _airHorizontalMovementSettings;
+        }
+    }
     #endregion
 
     #region Vertical Movements
