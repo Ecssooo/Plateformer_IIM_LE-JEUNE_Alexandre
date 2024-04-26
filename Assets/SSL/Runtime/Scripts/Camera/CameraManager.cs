@@ -30,17 +30,19 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
+        Vector3 nextPosition = _FindCameraNextPosition();   
+        
         if (_IsPlayingProfileTransition())
         {
             _profileTransitionTimer += Time.deltaTime;
-            Vector3 transitionPosition = _CalculateProfileTransitionCameraPosition(_currentCameraProfile.position);
+            Vector3 transitionPosition = _CalculateProfileTransitionCameraPosition(nextPosition);
             _SetCameraPosition(transitionPosition);
             float transitionSize = _CalculateProfileTransitionCameraSize(_currentCameraProfile.CameraSize);
             _SetCameraSize(transitionSize);
         }
         else
         {
-            _SetCameraPosition(_currentCameraProfile.position);
+            _SetCameraPosition(nextPosition);
             _SetCameraSize(_currentCameraProfile.CameraSize);
         }
     }
@@ -99,11 +101,34 @@ public class CameraManager : MonoBehaviour
         float startSize = _profileTransitionStartSize;
         return Mathf.Lerp(startSize, endSize, percent);
     }
-
     private Vector3 _CalculateProfileTransitionCameraPosition(Vector3 endPosition)
     {
         float percent = _profileTransitionTimer / _profileTransitionDuration;
         Vector3 origin = _profileTransitionStartPosition;
         return Vector3.Lerp(origin, endPosition, percent);
     }
+
+    private Vector3 _FindCameraNextPosition()
+    {
+        if (_currentCameraProfile.ProfileType == CameraProfileType.FollowTarget)
+        {
+            if (_currentCameraProfile.TargetToFollow != null)
+            {
+                Vector3 destination = _currentCameraProfile.TargetToFollow.position;
+                return destination;
+            }
+        }
+        return _currentCameraProfile.position;
+    }
+    
+    /* Lerp example sans Mathf.lerp
+    private float _CalculateProfileTransitionCameraSize(float endsize)
+    {
+        float percent = _profileTransitionTimer /              _profileTransitionDuration;
+        percent = Mathf.Clamp01(percent);
+
+        float startSize = _profileTransitionStartSize;
+        return startSize + (endsize - startSize) * percent;
+    }
+*/
 }
