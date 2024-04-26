@@ -38,11 +38,16 @@ public class HeroEntity : MonoBehaviour
     private float _jumpTimer = 0f;
 
     [Header("Dash")]
-    [SerializeField] private DashSettings _dashSettings;
+    [FormerlySerializedAs("_dashsettings")]
+    [SerializeField] private DashSettings _groundDashSettings;
+    [SerializeField] private DashSettings _airDashSettings;
 
     private bool _isDashing = false;
     private float _dashTimer = 0f;
 
+    private float _UpdateGravityTimer = 0.6f;
+    private float _UpdateGravityCooldown = 0f;
+    
     [Header("Orientation")]
     [SerializeField] private Transform _orientVisualRoot;
     private float _orientX = 1f;
@@ -57,6 +62,7 @@ public class HeroEntity : MonoBehaviour
     {
         _ApplyGroundDetection();
         HeroHorizontalMovementSettings horizontalMovementSettings = _getCurrentHorizontalMovementSettings();
+        DashSettings dashSettings = _getCurrentDashSettings();
         if (_AreOrientAndMovementOpposite())
         {
             _TurnBack(horizontalMovementSettings);
@@ -66,16 +72,17 @@ public class HeroEntity : MonoBehaviour
             _ChangeOrientFromHorizontalMovement();
         }
 
-        if (IsJumping)
+        if (_isDashing)
         {
-            _UpdateJump();
+            _UpdateDashImpulsion(dashSettings);
         }
         
         else
         {
-            if (_isDashing)
+            if (IsJumping)
             {
-                _UpdateDashImpulsion();
+                _UpdateJump();
+                
             }
             else
             {
@@ -207,17 +214,45 @@ public class HeroEntity : MonoBehaviour
         _dashTimer = 0f;
     }
 
-    private void _UpdateDashImpulsion()
+    private void _UpdateDashImpulsion(DashSettings settings)
     {
         _dashTimer += Time.fixedDeltaTime;
-        if (_dashTimer < _dashSettings.DashDuration)
+        if (_dashTimer < settings.DashDuration)
         {
-            _horizontalSpeed = _dashSettings.DashSpeed;
+            _horizontalSpeed = settings.DashSpeed;
+            _UpdateJump();
+            _UpdateGravity();
         }
         else
         {
-            _horizontalSpeed = 0f;
+            _horizontalSpeed = _getCurrentHorizontalMovementSettings().speedMax;
             _isDashing = false;
+        }
+    }
+
+    private void _UpdateGravity()
+    {
+        if (!IsTouchingGround)
+        {
+            _UpdateGravityCooldown = 0f;
+            _rigidbody.gravityScale = 0f;
+            if (_UpdateGravityCooldown >= _UpdateGravityTimer)
+            {
+                _rigidbody.gravityScale = 1f;
+            }
+            _UpdateGravityCooldown += Time.fixedDeltaTime;
+        }
+    }
+
+    private DashSettings _getCurrentDashSettings()
+    {
+        if (IsTouchingGround)
+        {
+            return _groundDashSettings;
+        }
+        else
+        {
+            return _airDashSettings;
         }
     }
     
@@ -323,6 +358,7 @@ public class HeroEntity : MonoBehaviour
         }
         GUILayout.Label($"Horizontal Speed = {_horizontalSpeed}");
         GUILayout.Label($"Vertical Speed = {_verticalSpeed}");
+        GUILayout.Label($"IsDashing = {_isDashing}");
         //GUILayout.Label($"isDashing = {_isDashing}");
         
         GUILayout.EndVertical();

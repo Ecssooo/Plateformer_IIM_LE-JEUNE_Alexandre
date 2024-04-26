@@ -26,7 +26,7 @@ public class HeroController : MonoBehaviour
         GUILayout.BeginVertical(GUI.skin.box);
         GUILayout.Label(gameObject.name);
         GUILayout.Label($"Jump Buffer Timer = {_jumpBufferTimer}");
-        GUILayout.Label($"Jump Buffer Timer = {_coyoteTimeCooldown}");
+        GUILayout.Label($"Coyote Timer = {_coyoteTimeCooldown}");
         GUILayout.EndVertical();
     }
 
@@ -41,6 +41,8 @@ public class HeroController : MonoBehaviour
         if (GetInputDash())
         {
             _entity.StartDash();
+            _entity.StopJumpImpulsion();
+            
         }
         else
         {
