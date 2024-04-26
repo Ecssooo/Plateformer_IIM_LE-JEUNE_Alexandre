@@ -780,6 +780,7 @@ GameObject:
   - component: {fileID: 7212136366118121974}
   - component: {fileID: 6480041685457909243}
   - component: {fileID: 4508149420509869261}
+  - component: {fileID: 7815417203361055591}
   m_Layer: 0
   m_Name: SquareHero_Entity
   m_TagString: Untagged
@@ -874,7 +875,7 @@ MonoBehaviour:
     DashSpeed: 25
     DashDuration: 0.2
   _orientVisualRoot: {fileID: 3024582456938629764}
-  _guiDebug: 1
+  _guiDebug: 0
 --- !u!114 &4508149420509869261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -895,3 +896,15 @@ MonoBehaviour:
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &7815417203361055591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771865885331362632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3fd87c03a9bd0748bfe1ae27aa5a358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -55,12 +55,33 @@ public class HeroEntity : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool _guiDebug = false;
 
-    
+    [Header("Camera")] private CameraFollowable _cameraFollowable;
 
+    private void Awake()
+    {
+        _cameraFollowable = GetComponent<CameraFollowable>();
+        _cameraFollowable.FollowPositionX = _rigidbody.position.x;
+        _cameraFollowable.FollowPositionY = _rigidbody.position.y;
+    }
+    
+    #region Camera
+
+    private void _UpdateCameraFollowPosition()
+    {
+        _cameraFollowable.FollowPositionX = _rigidbody.position.x;
+        if (IsTouchingGround && !IsJumping)
+        {
+            _cameraFollowable.FollowPositionY = _rigidbody.position.y;
+        }
+    }
+    
+    #endregion
+    
     #region Update
     private void FixedUpdate()
     {
         _ApplyGroundDetection();
+        _UpdateCameraFollowPosition();
         HeroHorizontalMovementSettings horizontalMovementSettings = _getCurrentHorizontalMovementSettings();
         DashSettings dashSettings = _getCurrentDashSettings();
         if (_AreOrientAndMovementOpposite())
