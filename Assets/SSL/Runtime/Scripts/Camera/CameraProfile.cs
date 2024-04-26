@@ -14,4 +14,3 @@ public class CameraProfile : MonoBehaviour
             _camera.enabled = false;
     }
 }
-

@@ -822,7 +822,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3aa90e189c58491468a67afb3329e400, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -832,7 +832,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &6480041685457909243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,9 +867,12 @@ MonoBehaviour:
   _jumpFallSettings:
     fallGravity: 60
     fallSpeedMax: 20
-  _dashSettings:
+  _groundDashSettings:
     DashSpeed: 20
     DashDuration: 0.1
+  _airDashSettings:
+    DashSpeed: 25
+    DashDuration: 0.2
   _orientVisualRoot: {fileID: 3024582456938629764}
   _guiDebug: 1
 --- !u!114 &4508149420509869261
@@ -888,7 +891,7 @@ MonoBehaviour:
   - {fileID: 203643196923139263}
   - {fileID: 5060177279040936632}
   - {fileID: 6662331843491865519}
-  _detectionLenght: 0.1
+  _detectionLenght: 0.05
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
