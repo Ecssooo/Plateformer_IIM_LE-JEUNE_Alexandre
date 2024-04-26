@@ -76,7 +76,6 @@ public class HeroEntity : MonoBehaviour
         {
             _UpdateDashImpulsion(dashSettings);
         }
-        
         else
         {
             if (IsJumping)

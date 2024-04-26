@@ -582,7 +582,7 @@ GameObject:
   - component: {fileID: 652839054}
   m_Layer: 0
   m_Name: PanoramaTrigger
-  m_TagString: Untagged
+  m_TagString: CameraTriggerTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -616,6 +616,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraProfile: {fileID: 869992945}
   _boxCollider: {fileID: 652839055}
+  _enterTransition:
+    duration: 1
+  _exitTransition:
+    duration: 0.5
 --- !u!61 &652839055
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -42,7 +42,6 @@ public class HeroController : MonoBehaviour
         {
             _entity.StartDash();
             _entity.StopJumpImpulsion();
-            
         }
         else
         {
