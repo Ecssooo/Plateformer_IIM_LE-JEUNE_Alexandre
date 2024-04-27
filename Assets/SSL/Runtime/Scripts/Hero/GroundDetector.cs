@@ -10,8 +10,9 @@ public class GroundDetector : MonoBehaviour
     [SerializeField] private Transform[] _detectionPoints;
     [SerializeField] private float _detectionLenght = 0.1f;
     [SerializeField] private LayerMask _groundLayerMask;
+    [SerializeField] private LayerMask _groundWallLayerMask;
 
-    public bool DetectGroundNeayBy()
+    public bool DetectGroundNearBy()
     {
         foreach(Transform detectionPoint in _detectionPoints)
         {
@@ -20,7 +21,12 @@ public class GroundDetector : MonoBehaviour
                 Vector2.down,
                 _detectionLenght,
                 _groundLayerMask);
-            if(hitResult.collider != null)
+            RaycastHit2D hitResult2 = Physics2D.Raycast(
+                detectionPoint.position,
+                Vector2.down,
+                _detectionLenght,
+                _groundWallLayerMask);
+            if(hitResult.collider != null || hitResult2.collider != null)
             {
                 return true;
             }

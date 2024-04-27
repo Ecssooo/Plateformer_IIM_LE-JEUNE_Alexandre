@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 33403557}
   - component: {fileID: 33403556}
   - component: {fileID: 33403558}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Ground (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -515,7 +515,7 @@ GameObject:
   - component: {fileID: 472971580}
   - component: {fileID: 472971579}
   - component: {fileID: 472971582}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1079,7 +1079,7 @@ GameObject:
   - component: {fileID: 889114657}
   - component: {fileID: 889114656}
   - component: {fileID: 889114658}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Ground (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1222,7 +1222,7 @@ GameObject:
   - component: {fileID: 1119478255}
   - component: {fileID: 1119478254}
   - component: {fileID: 1119478256}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Ground (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1709,7 +1709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _profileType: 1
   _targetToFollow: {fileID: 732721623840024185}
-  _followOffsetX: 8
+  _followOffsetX: 0
   _followOffsetDamping: 1.5
   _autoScrollHorizontalSpeed: 1
   _autoScrollVerticalSpeed: 0
@@ -1736,7 +1736,7 @@ GameObject:
   - component: {fileID: 1641381207}
   - component: {fileID: 1641381206}
   - component: {fileID: 1641381209}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1996,16 +1996,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6480041685457909243, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
-      propertyPath: _guiDebug
+    - target: {fileID: 4508149420509869261, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
+      propertyPath: _detectionLenght
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4508149420509869261, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
+      propertyPath: _groundWallLayerMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 4515010377714210753, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
+      propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623976410430175478, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
+      propertyPath: _groundWallLayerMask.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 6771865885331362632, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
       propertyPath: m_Name
       value: SquareHero_Entity
       objectReference: {fileID: 0}
-    - target: {fileID: 7212136366118121974, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
-      propertyPath: m_Interpolate
+    - target: {fileID: 7248136324537075995, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
