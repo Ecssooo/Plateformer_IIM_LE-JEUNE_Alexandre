@@ -1533,8 +1533,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17f0799299754a109c3f3f9e5153f6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _profileType: 0
-  _targetToFollow: {fileID: 732721623840024182}
+  _profileType: 1
+  _targetToFollow: {fileID: 732721623840024185}
 --- !u!1 &1641381205
 GameObject:
   m_ObjectHideFlags: 0
@@ -1803,10 +1803,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6480041685457909243, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
-      propertyPath: _guiDebug
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6771865885331362632, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
       propertyPath: m_Name
       value: SquareHero_Entity
@@ -1821,6 +1817,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 182482925853841835, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
   m_PrefabInstance: {fileID: 732721623840024181}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &732721623840024185 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7815417203361055591, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
+  m_PrefabInstance: {fileID: 732721623840024181}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3fd87c03a9bd0748bfe1ae27aa5a358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
