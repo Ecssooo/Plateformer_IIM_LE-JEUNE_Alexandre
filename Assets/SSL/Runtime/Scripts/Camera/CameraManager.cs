@@ -19,6 +19,8 @@ public class CameraManager : MonoBehaviour
     private float _profileTransitionStartSize;
     //Follow
     private Vector3 _profileLastFollowDestination;
+    //Damping
+    private Vector3 _dampedPosition;
     
     private void Awake()
     {
@@ -32,7 +34,8 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
-        Vector3 nextPosition = _FindCameraNextPosition();   
+        Vector3 nextPosition = _FindCameraNextPosition();
+        nextPosition = _ApplyDamping(nextPosition);
         
         if (_IsPlayingProfileTransition())
         {
@@ -54,6 +57,7 @@ public class CameraManager : MonoBehaviour
         _currentCameraProfile = _defaultCameraProfile;
         _SetCameraPosition(_currentCameraProfile.position);
         _SetCameraSize(_currentCameraProfile.CameraSize);
+        _SetCameraDampedPosition(_FindCameraNextPosition());
     }
     
     private void _SetCameraPosition(Vector3 position)
@@ -69,11 +73,17 @@ public class CameraManager : MonoBehaviour
         _camera.orthographicSize = size;
     }
 
+    private void _SetCameraDampedPosition(Vector3 position)
+    {
+        _dampedPosition.x = position.x;
+        _dampedPosition.y = position.y;
+    }
     public void EnterProfile(CameraProfile cameraProfile,CameraProfileTransition transition = null)
     {
         _currentCameraProfile = cameraProfile;
         if(transition != null)
             _PlayProfileTransition(transition);
+        _SetCameraDampedPosition(_FindCameraNextPosition());
     }
 
     public void ExitProfile(CameraProfile cameraProfile, CameraProfileTransition transition = null)
@@ -82,6 +92,7 @@ public class CameraManager : MonoBehaviour
         _currentCameraProfile = _defaultCameraProfile;
         if(transition != null)
             _PlayProfileTransition(transition);
+        _SetCameraDampedPosition(_FindCameraNextPosition());
     }
 
     private void _PlayProfileTransition(CameraProfileTransition transition)
@@ -124,6 +135,34 @@ public class CameraManager : MonoBehaviour
             }
         }
         return _currentCameraProfile.position;
+    }
+
+    private Vector3 _ApplyDamping(Vector3 position)
+    {
+        if (_currentCameraProfile.UseDampingHorizontally)
+        {
+            _dampedPosition.x = Mathf.Lerp(_dampedPosition.x,
+                position.x,
+                _currentCameraProfile.HorizontalDampingFactor * Time.deltaTime
+                );
+        }
+        else
+        {
+            _dampedPosition.x = position.x;
+        }
+        if (_currentCameraProfile.UseDampingVertically)
+        {
+            _dampedPosition.y = Mathf.Lerp(_dampedPosition.y,
+                position.y,
+                _currentCameraProfile.VerticalDampingFactor * Time.deltaTime
+            );
+        }
+        else
+        {
+            _dampedPosition.y = position.y;
+        }
+
+        return _dampedPosition;
     }
     
     /* Lerp example sans Mathf.lerp
