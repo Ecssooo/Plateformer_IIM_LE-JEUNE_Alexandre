@@ -8,6 +8,11 @@ public class CameraManager : MonoBehaviour
     
     [Header("Camera")]
     [SerializeField] private Camera _camera;
+    
+    [Header("Player Offset")]
+    [SerializeField] private Transform _playerTransform;
+
+    [SerializeField] private CameraProfileTransition _offsetTransition;
 
     [Header("Profile System")]
     [SerializeField] private CameraProfile _defaultCameraProfile;
@@ -21,7 +26,10 @@ public class CameraManager : MonoBehaviour
     private Vector3 _profileLastFollowDestination;
     //Damping
     private Vector3 _dampedPosition;
+    //Auto Scroll
+    private Vector3 _profileAutoScrollDestination; 
     
+    #region Update
     private void Awake()
     {
         Instance = this;
@@ -34,7 +42,7 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
-        Vector3 nextPosition = _FindCameraNextPosition();
+        Vector3 nextPosition = _FindCameraNextPosition(_offsetTransition);
         nextPosition = _ClampPositionIntoBounds(nextPosition);
         nextPosition = _ApplyDamping(nextPosition);
         
@@ -53,13 +61,14 @@ public class CameraManager : MonoBehaviour
             _SetCameraSize(_currentCameraProfile.CameraSize);
         }
     }
-
+    #endregion
+    #region Init / Set 
     private void _InitToDefaultProfile()
     {
         _currentCameraProfile = _defaultCameraProfile;
         _SetCameraPosition(_currentCameraProfile.position);
         _SetCameraSize(_currentCameraProfile.CameraSize);
-        _SetCameraDampedPosition(_ClampPositionIntoBounds(_FindCameraNextPosition()));
+        _SetCameraDampedPosition(_ClampPositionIntoBounds(_FindCameraNextPosition(_offsetTransition)));
     }
     
     private void _SetCameraPosition(Vector3 position)
@@ -80,12 +89,14 @@ public class CameraManager : MonoBehaviour
         _dampedPosition.x = position.x;
         _dampedPosition.y = position.y;
     }
+    #endregion
+    #region Collider
     public void EnterProfile(CameraProfile cameraProfile,CameraProfileTransition transition = null)
     {
         _currentCameraProfile = cameraProfile;
         if(transition != null)
             _PlayProfileTransition(transition);
-        _SetCameraDampedPosition(_FindCameraNextPosition());
+        _SetCameraDampedPosition(_FindCameraNextPosition(_offsetTransition));
     }
 
     public void ExitProfile(CameraProfile cameraProfile, CameraProfileTransition transition = null)
@@ -94,9 +105,11 @@ public class CameraManager : MonoBehaviour
         _currentCameraProfile = _defaultCameraProfile;
         if(transition != null)
             _PlayProfileTransition(transition);
-        _SetCameraDampedPosition(_FindCameraNextPosition());
+        _SetCameraDampedPosition(_FindCameraNextPosition(_offsetTransition));
     }
 
+    #endregion
+    #region Transition
     private void _PlayProfileTransition(CameraProfileTransition transition)
     {
         _profileTransitionStartPosition = _camera.transform.position;
@@ -122,23 +135,43 @@ public class CameraManager : MonoBehaviour
         Vector3 origin = _profileTransitionStartPosition;
         return Vector3.Lerp(origin, endPosition, percent);
     }
-
-    private Vector3 _FindCameraNextPosition()
+    #endregion
+    
+    private Vector3 _FindCameraNextPosition(CameraProfileTransition transition = null)
     {
         if (_currentCameraProfile.ProfileType == CameraProfileType.FollowTarget)
         {
             if (_currentCameraProfile.TargetToFollow != null)
             {
                 CameraFollowable targetToFollow = _currentCameraProfile.TargetToFollow;
-                _profileLastFollowDestination.x = targetToFollow.FollowPositionX;
-                _profileLastFollowDestination.y = targetToFollow.FollowPositionY;
+                if (HeroEntity._orientX == 1f)
+                {
+                    _profileLastFollowDestination.x = targetToFollow.FollowPositionX + _currentCameraProfile.FollowOffsetX;
+                    _profileLastFollowDestination.y = targetToFollow.FollowPositionY;
+                    if(transition != null)
+                        _PlayProfileTransition(transition);
+                }
+                else
+                {
+                    _profileLastFollowDestination.x = targetToFollow.FollowPositionX - _currentCameraProfile.FollowOffsetX;
+                    _profileLastFollowDestination.y = targetToFollow.FollowPositionY;
+                    if(transition != null)
+                        _PlayProfileTransition(transition);
+                }
                 return _profileLastFollowDestination;
-
             }
+        }
+        //AutoScroll
+        else if (_currentCameraProfile.ProfileType == CameraProfileType.AutoScroll)
+        {
+            _profileAutoScrollDestination.x = _camera.transform.position.x + _currentCameraProfile.AutoScrollHorizontalSpeed * Time.fixedDeltaTime;
+            _profileAutoScrollDestination.y = _camera.transform.position.y + _currentCameraProfile.AutoScrollVerticalSpeed * Time.fixedDeltaTime;
+            return _profileAutoScrollDestination;
         }
         return _currentCameraProfile.position;
     }
 
+    #region Damping
     private Vector3 _ApplyDamping(Vector3 position)
     {
         if (_currentCameraProfile.UseDampingHorizontally)
@@ -166,7 +199,8 @@ public class CameraManager : MonoBehaviour
 
         return _dampedPosition;
     }
-
+    #endregion
+    #region Bounds
     private Vector3 _ClampPositionIntoBounds(Vector3 position)
     {
         if (!_currentCameraProfile.HasBounds) return position;
@@ -198,6 +232,7 @@ public class CameraManager : MonoBehaviour
         }
         return position;
     }
+    #endregion
     
     
     

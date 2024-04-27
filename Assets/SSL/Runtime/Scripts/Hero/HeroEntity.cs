@@ -50,7 +50,7 @@ public class HeroEntity : MonoBehaviour
     
     [Header("Orientation")]
     [SerializeField] private Transform _orientVisualRoot;
-    private float _orientX = 1f;
+    public static float _orientX = 1f;
 
     [Header("Debug")]
     [SerializeField] private bool _guiDebug = false;

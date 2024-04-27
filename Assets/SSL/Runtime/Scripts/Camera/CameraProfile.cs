@@ -4,7 +4,8 @@ using UnityEngine;
 public enum CameraProfileType
 {
     Static = 0,
-    FollowTarget
+    FollowTarget,
+    AutoScroll
 }
 
 public class CameraProfile : MonoBehaviour
@@ -20,6 +21,14 @@ public class CameraProfile : MonoBehaviour
 
     [Header("Follow")] 
     [SerializeField] private CameraFollowable _targetToFollow = null;
+    [SerializeField] private float _followOffsetX = 8f;
+    [SerializeField] private float _followOffsetDamping = 1.5f;
+    
+
+    [Header("Auto Scroll")] 
+    [SerializeField] private float _autoScrollHorizontalSpeed = 1f;
+
+    [SerializeField] private float _autoScrollVerticalSpeed = 0f;
 
     [Header("Damping")] 
     [SerializeField] private bool _useDampingHorizontally;
@@ -32,6 +41,13 @@ public class CameraProfile : MonoBehaviour
 
     [SerializeField] private Rect _boundsRect = new Rect(0f, 0f, 10f, 10f);
 
+
+    public float FollowOffsetX => _followOffsetX;
+    public float FollowOffsetDamping => _followOffsetDamping;
+    
+    public float AutoScrollHorizontalSpeed => _autoScrollHorizontalSpeed;
+    public float AutoScrollVerticalSpeed => _autoScrollVerticalSpeed;
+    
     public bool HasBounds => _hasBounds;
     public Rect BoundsRect => _boundsRect;
     
