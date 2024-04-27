@@ -783,7 +783,7 @@ Transform:
   m_GameObject: {fileID: 720670115}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 100, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -923,6 +923,13 @@ MonoBehaviour:
   _horizontalDampingFactor: 5
   _useDampingVertically: 0
   _verticalDampingFactor: 5
+  _hasBounds: 0
+  _boundsRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 10
+    height: 10
 --- !u!20 &869992946
 Camera:
   m_ObjectHideFlags: 0
@@ -1468,7 +1475,7 @@ Transform:
   m_GameObject: {fileID: 1612629484}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 100, y: 100, z: -10}
+  m_LocalPosition: {x: 100, y: 101, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1543,6 +1550,13 @@ MonoBehaviour:
   _horizontalDampingFactor: 7
   _useDampingVertically: 1
   _verticalDampingFactor: 5
+  _hasBounds: 1
+  _boundsRect:
+    serializedVersion: 2
+    x: 80
+    y: 95
+    width: 47.5
+    height: 15
 --- !u!1 &1641381205
 GameObject:
   m_ObjectHideFlags: 0
