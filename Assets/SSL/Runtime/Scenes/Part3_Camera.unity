@@ -1996,29 +1996,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4508149420509869261, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
-      propertyPath: _detectionLenght
-      value: 0.1
+    - target: {fileID: 6480041685457909243, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
+      propertyPath: _fallSettings.fallGravity
+      value: 30
       objectReference: {fileID: 0}
-    - target: {fileID: 4508149420509869261, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
-      propertyPath: _groundWallLayerMask.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
-    - target: {fileID: 4515010377714210753, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4623976410430175478, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
-      propertyPath: _groundWallLayerMask.m_Bits
-      value: 256
+    - target: {fileID: 6480041685457909243, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
+      propertyPath: _fallSettings.fallSpeedMax
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6771865885331362632, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
       propertyPath: m_Name
       value: SquareHero_Entity
-      objectReference: {fileID: 0}
-    - target: {fileID: 7248136324537075995, guid: 58ffc10b51f5a6a4996c22f63f520b49, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

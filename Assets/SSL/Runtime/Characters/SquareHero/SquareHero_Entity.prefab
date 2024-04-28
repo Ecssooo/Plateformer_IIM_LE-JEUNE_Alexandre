@@ -638,7 +638,7 @@ Transform:
   m_GameObject: {fileID: 5028652851828150025}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.412, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1050,23 +1050,48 @@ MonoBehaviour:
     turnBackFrictions: 100
     speedMax: 6
   _fallSettings:
-    fallGravity: 20
-    fallSpeedMax: 10
+    fallGravity: 30
+    fallSpeedMax: 20
   _groundDetector: {fileID: 4508149420509869261}
   _wallDetector: {fileID: 4623976410430175478}
+  _wallInteractSettings:
+    wallSlideSpeed: 0.5
   _jumpSettings:
     jumpSpeed: 8
     jumpMinDuration: 0.1
     jumpMaxDuration: 0.25
+  _wallJumpSettings:
+    jumpSpeed: 10
+    jumpMinDuration: 0.1
+    jumpMaxDuration: 0.15
   _jumpFallSettings:
     fallGravity: 60
     fallSpeedMax: 20
+  _jumpHorizontalMovementSettings:
+    acceleration: 20
+    deceleration: 1
+    turnBackFrictions: 200
+    speedMax: 7
+  _listHeroMultiJump:
+  - jumpSpeed: 8
+    jumpMinDuration: 0.1
+    jumpMaxDuration: 0.25
+  - jumpSpeed: 8
+    jumpMinDuration: 0.1
+    jumpMaxDuration: 0.25
+  - jumpSpeed: 6
+    jumpMinDuration: 0.05
+    jumpMaxDuration: 0.1
+  indexJump: 1
   _groundDashSettings:
     DashSpeed: 20
     DashDuration: 0.1
   _airDashSettings:
     DashSpeed: 25
     DashDuration: 0.2
+  _dashFallSettings:
+    fallGravity: 0
+    fallSpeedMax: 0
   _orientVisualRoot: {fileID: 3024582456938629764}
   _guiDebug: 1
 --- !u!114 &4508149420509869261
@@ -1085,10 +1110,13 @@ MonoBehaviour:
   - {fileID: 203643196923139263}
   - {fileID: 5060177279040936632}
   - {fileID: 6662331843491865519}
-  _detectionLenght: 0.05
+  _detectionLenght: 0.1
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _groundWallLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &7815417203361055591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1125,6 +1153,9 @@ MonoBehaviour:
   _wallLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  _groundWallLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &7248136324537075995
 GameObject:
   m_ObjectHideFlags: 0
@@ -1184,7 +1215,7 @@ Transform:
   m_GameObject: {fileID: 7481490531481943659}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.397, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

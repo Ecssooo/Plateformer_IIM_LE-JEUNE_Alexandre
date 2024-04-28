@@ -60,9 +60,14 @@ public class HeroController : MonoBehaviour
                 if ((_entity.IsTouchingGround ||_IsCoyoteActive()) && !_entity.IsJumping)
                 {
                     _entity.JumpStart();
+                }else if (_entity.wasJumping && !_entity.IsTouchingGround)
+                {
+                    _entity.JumpStart();
+                    _entity.indexJump++;
                 }
                 else
                 {
+                    
                     if (_entity.isWallSliding)
                     {
                         _entity.JumpStart();
@@ -156,6 +161,7 @@ public class HeroController : MonoBehaviour
     {
         _jumpBufferTimer = _jumpBufferDuration;
     }
+    
     
     #endregion
     #region coyote Time
